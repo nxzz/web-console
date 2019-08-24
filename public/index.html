@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+	<link rel="stylesheet" href="node_modules/xterm/dist/xterm.css" />
+	<script src="node_modules/xterm/dist/xterm.js"></script>
+	<script src="node_modules/xterm/dist/addons/fit/fit.js"></script>
+	<!-- <script src="node_modules/xterm/dist/addons/fit/fit.js"></script> -->
+	<script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+	<div id="terminal" style="width:720px; height:480px"></div>
+	<script>
+		Terminal.applyAddon(fit);
+		const obj = { hello: "world" };
+		const method = "POST";
+		const body = JSON.stringify(obj);
+		const headers = {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		};
+		fetch('/api/console/ubuntu', {
+			method: 'POST',
+			body: JSON.stringify({}),
+			headers: new Headers({ "Content-type": "application/json" })
+		}).then(function (response) {
+			return response.json();
+		}).then(function (response) {
+			let socket = io.connect('/' + response.containerId);
+			let term = new Terminal({
+				cols: 120,  // Set the terminal's width to 120 columns
+				rows: 40  // Set the terminal's height to 80 rows
+			});
+			term.open(document.getElementById('terminal'));
+			// term.fit();
+
+			socket.on('data', data => {
+				term.write(data);
+			});
+			term.on('data', data => {
+				socket.emit('data', data);
+			});
+			socket.on('disconnect', () => {
+				term.destroy();
+			});
+		});
+	</script>
+</body>
+
+</html>
