@@ -1,14 +1,13 @@
 "use strict";
 const express = require('express');
-const bodyParser = require('body-parser');
 const build = require('./exec');
 
 const app = express();
 const http = require('http').Server(app);
 build.init(http);
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
     extended: true
 }));
 

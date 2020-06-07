@@ -9,7 +9,6 @@
   "author": "Rimpei Kunimoto <kunimoto@nwing.net>",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.15.2",
     "dockerode": "^2.5.8",
     "express": "^4.17.1",
     "socket.io": "^1.7.4",
