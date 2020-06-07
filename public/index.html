@@ -2,17 +2,14 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="node_modules/xterm/dist/xterm.css" />
-	<script src="node_modules/xterm/dist/xterm.js"></script>
-	<script src="node_modules/xterm/dist/addons/fit/fit.js"></script>
-	<!-- <script src="node_modules/xterm/dist/addons/fit/fit.js"></script> -->
+	<link rel="stylesheet" href="node_modules/xterm/css/xterm.css" />
+	<script src="node_modules/xterm/lib/xterm.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
 	<div id="terminal" style="width:720px; height:480px"></div>
 	<script>
-		Terminal.applyAddon(fit);
 		const obj = { hello: "world" };
 		const method = "POST";
 		const body = JSON.stringify(obj);
@@ -33,16 +30,15 @@
 				rows: 40  // Set the terminal's height to 80 rows
 			});
 			term.open(document.getElementById('terminal'));
-			// term.fit();
 
 			socket.on('data', data => {
 				term.write(data);
 			});
-			term.on('data', data => {
+			term.onData(data => {
 				socket.emit('data', data);
 			});
 			socket.on('disconnect', () => {
-				term.destroy();
+				term.dispose();
 			});
 		});
 	</script>
