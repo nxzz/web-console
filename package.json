@@ -11,7 +11,7 @@
   "dependencies": {
     "dockerode": "^2.5.8",
     "express": "^4.17.1",
-    "socket.io": "^1.7.4",
+    "socket.io": "^2.4.0",
     "xterm": "^4.6.0"
   },
   "devDependencies": {}
